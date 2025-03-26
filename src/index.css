@@ -24,6 +24,7 @@
   border: 1px solid #ddd;
   text-align: center;
   box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
 }
 .card img{
   width: 100%;

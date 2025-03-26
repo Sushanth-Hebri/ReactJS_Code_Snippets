@@ -1,31 +1,68 @@
-import React, {useEffect, useState} from "react"; //importing React and Hooks
+import React, { useEffect, useState } from "react"; //importing React and Hooks
 import Card from "./components/Card"; //importing card component
+import { useInView } from "react-intersection-observer";
+import Skeletoncard from "./components/SkeletonCard";
 
-const App = ()=>{
-  const [data, setData]= useState([]); //State to store fetched API  data (initially an empty array)
-//useEffect runs when the component mounts
+const App = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] =useState(true);
+  const [page, setPage] =useState(1);
+
+  const {ref, inView} = useInView();
+  
+  const fetchData = async() =>{
+    setLoading(true);
+    try{
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=6`
+      );
+      const json = await response.json();
+      //add random image for each post
+      const updatedData = json.map((item)=>({
+        ...item,
+        image:`https://picsum.photos/300/200?random=${item.id}`, 
+      }));
+      setData((prevData) =>[...prevData, ...updatedData]);
+    }
+    catch (error) {
+      console.log("Error fetching data:", error);
+    }
+    setLoading(false);
+  };
   useEffect(()=>{
-//now fetching a API data mock data
-fetch("https://jsonplaceholder.typicode.com/posts")
-  .then((response) => response.json()) //converting the response to json
-  .then((json) => setData(json.slice(0,10))) //storing only 6 posts in state
-  .catch((error) => console.log("error fetching data:",error));
-  },[]) //The empty dependency array ensures the effect runs only once after the first render
+    fetchData();
+  },[page]);
 
-  return(
+  useEffect(()=>{
+    if(inView){
+      setPage((prevPage)=>prevPage +1);
+    }
+  },[inView]);
+
+  return (
     <div className="app">
-      <h1>API data in Card component</h1>
+      <h1>Infinite Scroll with skeleton loading</h1>
       <div className="card-container">
-        {data.map((item) =>(
-          <Card 
+        {data.map((item) => (
+          <Card
             key={item.id}
             title={item.title}
             description={item.body}
-            image={`https://picsum.photos/150?random=${item.id}`}
+            image={item.image}
           />
         ))}
+        {loading &&(
+          <>
+            <Skeletoncard/>
+            <Skeletoncard/>
+            <Skeletoncard/>
+            <Skeletoncard/>
+            <Skeletoncard/>
+          </>
+        )}
+        <div ref={ref} style={{height:"20px"}}></div>
       </div>
     </div>
-  )
-}
+  );
+};
 export default App;
