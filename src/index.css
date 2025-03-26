@@ -6,9 +6,14 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 } */
-
+body{
+  margin: 0;
+  padding: 0;
+}
 .app{
   text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
 /* Flexbox comntainer to arrange cards in a grid */

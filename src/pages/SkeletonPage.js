@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"; //importing React and Hooks
 import Card from "../components/Card"; //importing card component
 import { useInView } from "react-intersection-observer";
 import Skeletoncard from "../components/SkeletonCard";
-
+import Navbar from "../components/Navbar";
 const SkeletonPage = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] =useState(true);
@@ -41,6 +41,7 @@ const SkeletonPage = () => {
 
   return (
     <div className="app">
+    <Navbar/>
       <h1>Infinite Scroll with skeleton loading</h1>
       <div className="card-container">
         {data.map((item) => (
