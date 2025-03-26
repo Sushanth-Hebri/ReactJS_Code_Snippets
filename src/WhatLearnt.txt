@@ -3,3 +3,4 @@
 3)Migrate the whole infinite sccroll and skeleton loading code to a component and fix routes
 4)Create a Navbar component and use it in SkeletonPage.js
 5)include a search bar in navbar
+6)install redux for state management
