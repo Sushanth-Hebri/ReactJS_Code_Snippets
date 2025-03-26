@@ -1,29 +1,31 @@
-import "./App.css";
-import Greet from "./components/Greet";
-import Welcome from "./components/Welcome";
-import Hello from "./components/Hello";
-import Message from "./components/Message";
-import Counter from "./components/Counter";
-import FunctionClick from "./components/FunctionClick";
-import ClassClick from "./components/ClassClick";
-import EventBind from "./components/EventBind";
-import ParentComponent from "./components/ParentComponent";
-import UserGreeting from "./components/UserGreeting";
-import NameList from "./components/NameList";
-function App() {
-  return (
-    <div className="App">
-    <NameList />
-    {/* <UserGreeting /> */}
-    {/* <ParentComponent /> */}
-    {/* <EventBind /> */}
-      {/* <FunctionClick/>
-    <ClassClick/> */}
-      {/* <Greet name="bruce wyene" charecter="original" />
-    <Greet name= "Batman" charecter="fictional" />
-    <Welcome name= "Batman" charecter="fictional" /> */}
-    </div>
-  );
-}
+import React, {useEffect, useState} from "react"; //importing React and Hooks
+import Card from "./components/Card"; //importing card component
 
+const App = ()=>{
+  const [data, setData]= useState([]); //State to store fetched API  data (initially an empty array)
+//useEffect runs when the component mounts
+  useEffect(()=>{
+//now fetching a API data mock data
+fetch("https://jsonplaceholder.typicode.com/posts")
+  .then((response) => response.json()) //converting the response to json
+  .then((json) => setData(json.slice(0,10))) //storing only 6 posts in state
+  .catch((error) => console.log("error fetching data:",error));
+  },[]) //The empty dependency array ensures the effect runs only once after the first render
+
+  return(
+    <div className="app">
+      <h1>API data in Card component</h1>
+      <div className="card-container">
+        {data.map((item) =>(
+          <Card 
+            key={item.id}
+            title={item.title}
+            description={item.body}
+            image={`https://picsum.photos/150?random=${item.id}`}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
 export default App;
