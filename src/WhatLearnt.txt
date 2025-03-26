@@ -1,1 +1,2 @@
 1) how to create a reusable Card component, fetch data from an API, and display multiple results in these cards using React
+2)Skeleton loading with infinite scrolling
