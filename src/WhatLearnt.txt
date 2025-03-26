@@ -1,3 +1,4 @@
 1) how to create a reusable Card component, fetch data from an API, and display multiple results in these cards using React
 2)Skeleton loading with infinite scrolling
 3)Migrate the whole infinite sccroll and skeleton loading code to a component and fix routes
+4)Create a Navbar component and use it in SkeletonPage.js
